@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysqldb
+    env_file:
+      - ./.env
+    ports:
+      - "3306:3306"
+
+  equipment-service:
+    build: .
+    image: taras2309/equipment-service
+    container_name: equipment-service
+    env_file:
+      - ./.env
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
